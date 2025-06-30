@@ -10,9 +10,9 @@ export default function Document() {
         <meta property="og:title" content="Rithik V E | Robotics & Automation Engineer" />
         <meta property="og:description" content="Portfolio of Rithik V E, Robotics & Automation Engineer. AI, IoT, Full-stack, and more." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.tech" />
-        <meta property="og:image" content="https://yourdomain.tech/og-image.png" />
-        <link rel="canonical" href="https://yourdomain.tech" />
+        <meta property="og:url" content="https://therithik.tech" />
+        <meta property="og:image" content="https://therithik.tech/og-image.png" />
+        <link rel="canonical" href="https://therithik.tech" />
 
         {/* Favicons */}
         <link rel="icon" href="/favicon.ico" />

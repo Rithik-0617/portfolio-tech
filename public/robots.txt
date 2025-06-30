@@ -3,4 +3,4 @@ Disallow: /api/
 Disallow: /admin/
 Disallow: /private/
 Allow: /
-Sitemap: https://yourdomain.tech/sitemap.xml
+Sitemap: https://therithik.tech/sitemap.xml

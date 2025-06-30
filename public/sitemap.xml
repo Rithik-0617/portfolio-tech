@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://yourdomain.tech/</loc>
+    <loc>https://therithik.tech/</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://yourdomain.tech/#about</loc>
+    <loc>https://therithik.tech/#about</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourdomain.tech/#skills</loc>
+    <loc>https://therithik.tech/#skills</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourdomain.tech/#projects</loc>
+    <loc>https://therithik.tech/#projects</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourdomain.tech/#experience</loc>
+    <loc>https://therithik.tech/#experience</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourdomain.tech/#contact</loc>
+    <loc>https://therithik.tech/#contact</loc>
     <priority>0.8</priority>
   </url>
 </urlset>
