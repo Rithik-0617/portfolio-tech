@@ -20,12 +20,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { name, email, message, captcha } = req.body;
+  const { name, email, message } = req.body;
 
-  if (captcha !== '7') {
-    return res.status(400).json({ error: 'Captcha failed' });
-  }
-
+  // Check required fields
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
@@ -38,13 +35,12 @@ export default async function handler(req, res) {
   const sanitizedEmail = sanitize(email);
   const sanitizedMessage = sanitize(message);
 
-  // Load environment variables
   const EMAIL_USER = process.env.EMAIL_USER;
   const EMAIL_PASS = process.env.EMAIL_PASS;
   const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL;
 
   if (!EMAIL_USER || !EMAIL_PASS || !RECIPIENT_EMAIL) {
-    console.error('Email configuration missing in Vercel environment');
+    console.error('⚠️ Missing environment variables');
     return res.status(500).json({ error: 'Email configuration missing' });
   }
 
