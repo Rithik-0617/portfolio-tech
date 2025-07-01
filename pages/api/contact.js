@@ -22,7 +22,6 @@ export default async function handler(req, res) {
 
   const { name, email, message } = req.body;
 
-  // Check required fields
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
@@ -40,8 +39,7 @@ export default async function handler(req, res) {
   const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL;
 
   if (!EMAIL_USER || !EMAIL_PASS || !RECIPIENT_EMAIL) {
-    console.error('⚠️ Missing environment variables');
-    return res.status(500).json({ error: 'Email configuration missing' });
+    return res.status(500).json({ error: 'Server email configuration missing' });
   }
 
   const transporter = nodemailer.createTransport({
