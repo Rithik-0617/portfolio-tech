@@ -1,10 +1,14 @@
 import nodemailer from 'nodemailer';
 
 function sanitize(str) {
-  return String(str)
-    .replace(/[<>&"'`]/g, c => ({
-      '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;', '`': '&#96;'
-    }[c]));
+  return String(str).replace(/[<>&"'`]/g, (c) => ({
+    '<': '&lt;',
+    '>': '&gt;',
+    '&': '&amp;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '`': '&#96;',
+  }[c]));
 }
 
 function isValidEmail(email) {
@@ -16,9 +20,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  let { name, email, message, captcha } = req.body;
+  const { name, email, message, captcha } = req.body;
 
-  // Simple math captcha check (e.g., pass "captcha": "7" for 3+4)
   if (captcha !== '7') {
     return res.status(400).json({ error: 'Captcha failed' });
   }
@@ -26,22 +29,22 @@ export default async function handler(req, res) {
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
+
   if (!isValidEmail(email)) {
-    return res.status(400).json({ error: 'Invalid email' });
+    return res.status(400).json({ error: 'Invalid email address' });
   }
 
-  name = sanitize(name);
-  email = sanitize(email);
-  message = sanitize(message);
+  const sanitizedName = sanitize(name);
+  const sanitizedEmail = sanitize(email);
+  const sanitizedMessage = sanitize(message);
 
-  // Sender credentials from environment variables
-  const EMAIL_USER = process.env.EMAIL_USER; // rithikenginner1706@gmail.com
-  const EMAIL_PASS = process.env.EMAIL_PASS; // ignlyynfakllfppi
-
-  // Receiver credentials (use as recipient only, do not use password)
-  const RECIPIENT_EMAIL = 'rithikve90250@gmail.com';
+  // Load environment variables
+  const EMAIL_USER = process.env.EMAIL_USER;
+  const EMAIL_PASS = process.env.EMAIL_PASS;
+  const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL;
 
   if (!EMAIL_USER || !EMAIL_PASS || !RECIPIENT_EMAIL) {
+    console.error('Email configuration missing in Vercel environment');
     return res.status(500).json({ error: 'Email configuration missing' });
   }
 
@@ -54,24 +57,23 @@ export default async function handler(req, res) {
   });
 
   const mailOptions = {
-    from: `"${name}" <${EMAIL_USER}>`,
+    from: `"${sanitizedName}" <${EMAIL_USER}>`,
     to: RECIPIENT_EMAIL,
-    subject: `📩 Portfolio Contact from ${name}`,
+    subject: `📩 Portfolio Contact from ${sanitizedName}`,
     html: `
-      <h2>📬 New Contact Form Submission</h2>
-      <p><strong>🧑 Name:</strong> ${name}</p>
-      <p><strong>📧 Email:</strong> ${email}</p>
-      <p><strong>💬 Message:</strong></p>
-      <p>${message.replace(/\n/g, '<br/>')}</p>
+      <h2>📬 New Contact Submission</h2>
+      <p><strong>Name:</strong> ${sanitizedName}</p>
+      <p><strong>Email:</strong> ${sanitizedEmail}</p>
+      <p><strong>Message:</strong><br/>${sanitizedMessage.replace(/\n/g, '<br/>')}</p>
     `,
-    replyTo: email,
+    replyTo: sanitizedEmail,
   };
 
   try {
     await transporter.sendMail(mailOptions);
     return res.status(200).json({ success: true });
   } catch (error) {
-    console.error('❌ Failed to send email.', error);
+    console.error('❌ Email send failed:', error);
     return res.status(500).json({ error: 'Failed to send email' });
   }
 }
